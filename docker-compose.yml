@@ -1,0 +1,31 @@
+version: '3'
+services:
+  dns-server:
+    image: bind
+    container_name: dns-server
+    restart: always
+    ports:
+      - "53:53/udp"
+    networks:
+      - dns-network
+    volumes:
+      - ./named.conf:/etc/bind/named.conf
+      - ./zones:/etc/bind/zones
+  apache-server:
+    image: httpd
+    container_name: apache-server
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - dns-network
+    volumes:
+      - ./html:/usr/local/apache2/htdocs
+    depends_on:
+      - dns-server
+    links:
+      - dns-server
+networks:
+  dns-network:
+    driver: bridge
+  
