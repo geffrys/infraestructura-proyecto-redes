@@ -1,16 +1,5 @@
 version: '3'
 services:
-  # dns-server:
-  #   image: bind9
-  #   container_name: dns-server
-  #   restart: always
-  #   ports:
-  #     - "53:53/udp"
-  #   networks:
-  #     - dns-network
-  #   volumes:
-  #     - ./named.conf:/etc/bind/named.conf
-  #     - ./zones:/etc/bind/zones
   apache-server:
     image: httpd
     container_name: apache-server
@@ -58,9 +47,9 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
     volumes:
-      - ./config:/etc/bind
-      - ./cache:/var/cache/bind
-      - ./records:/var/lib/bind
+      - ./dns/bind:/etc/bind
+      - ./dns/cache:/var/cache/bind
+      - ./dns/lib/bind:/var/lib/bind
     restart: unless-stopped
 networks:
   dns-network:
