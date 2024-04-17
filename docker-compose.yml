@@ -1,16 +1,16 @@
 version: '3'
 services:
-  dns-server:
-    image: bind
-    container_name: dns-server
-    restart: always
-    ports:
-      - "53:53/udp"
-    networks:
-      - dns-network
-    volumes:
-      - ./named.conf:/etc/bind/named.conf
-      - ./zones:/etc/bind/zones
+  # dns-server:
+  #   image: bind9
+  #   container_name: dns-server
+  #   restart: always
+  #   ports:
+  #     - "53:53/udp"
+  #   networks:
+  #     - dns-network
+  #   volumes:
+  #     - ./named.conf:/etc/bind/named.conf
+  #     - ./zones:/etc/bind/zones
   apache-server:
     image: httpd
     container_name: apache-server
@@ -21,10 +21,34 @@ services:
       - dns-network
     volumes:
       - ./html:/usr/local/apache2/htdocs
-    depends_on:
-      - dns-server
-    links:
-      - dns-server
+    # depends_on:
+    #   - dns-server
+    # links:
+    #   - dns-server
+  ssh-server:
+    image: rastasheep/ubuntu-sshd
+    container_name: ssh-server
+    restart: always
+    environment:
+      - SSH_ROOT_PASSWORD=root
+      - SSH_USER_PASSWORD=user
+      - SSH_USER=user
+    ports:
+      - "22:22"
+    networks:
+      - dns-network
+  dhcp-server:
+    image: networkboot/dhcpd
+    container_name: dhcp-server
+    restart: always
+    ports:
+      - "67:67/udp"
+    networks:
+      - dns-network
+    volumes:
+      - ./dhcpd.conf:/etc/dhcp/dhcpd.conf
+    cap_add:
+      - NET_ADMIN
 networks:
   dns-network:
     driver: bridge
