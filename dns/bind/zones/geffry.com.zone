@@ -7,6 +7,6 @@ $TTL    604800
                          604800 )       ; Negative Cache TTL
 
 @       IN      NS      geffry.com.
-@     IN      A         172.17.64.1
+@     IN      A         172.16.0.135
 www     IN      CNAME   geffry.com.
 @       IN      MX      10 geffry.com.
