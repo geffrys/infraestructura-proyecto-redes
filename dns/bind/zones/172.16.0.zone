@@ -1,0 +1,15 @@
+$TTL 604800
+@       IN      SOA     geffry.com. root.geffry.com. (
+                        3         ; Serial
+                        604800    ; Refresh
+                        86400     ; Retry
+                        2419200   ; Expire
+                        604800 )  ; Negative Cache TTL
+;
+; Name servers
+@       IN      NS      ns.geffry.com.
+
+; PTR Records
+50      IN      PTR     www.geffry.com.
+51      IN      PTR     example1.geffry.com.
+52      IN      PTR     example2.geffry.com.

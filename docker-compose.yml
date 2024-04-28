@@ -10,10 +10,10 @@ services:
       - dns-network
     volumes:
       - ./html:/usr/local/apache2/htdocs
-    # depends_on:
-    #   - dns-server
-    # links:
-    #   - dns-server
+    depends_on:
+      - bind9
+    links:
+      - bind9
   ssh-server:
     image: rastasheep/ubuntu-sshd
     container_name: ssh-server
